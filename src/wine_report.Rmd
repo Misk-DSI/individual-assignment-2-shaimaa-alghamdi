@@ -1,0 +1,79 @@
+---
+title: " Wine Quality Report"
+output: html_document
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../"
+    )
+  })
+
+## Data
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(janitor)
+library(here)
+library(readxl)
+library(tidyverse)
+library(GGally)
+library(corrplot)
+library(ggplot2)
+```
+## Introduction
+This report analyze the red wine quality dataset in order to get insight in understand the data patterns.
+## DATA
+We explore the red wine quality dataset from UCIML which consists of twelve features that will be analysed.
+
+```{r}
+myData <- read_csv(here("data/winequality-red.csv"))
+```
+
+
+| Features      | Description |
+| ----------- | ----------- |
+| fixed acidity      | This feature refers to unevaporated readily acids involved with the wine, which are (fixed or nonvolatile) |
+| volatile acidity  | This feature refers to the wine's acetic acid amount.   |
+| citric acid   | This feature refers to the small quantity of citric acid, which adds good freshness and flavor to wines.  |
+| residual sugar   | This feature refers to the sugar remaining after fermentation stops quantity. |
+| chlorides | This feature refers to the wine's salt amount. |
+| free sulfur dioxide   | This feature is used to prevent the oxidation of the wine and refers to the SO2 existing in equilibrium between molecular SO2.  |
+| total sulfur dioxide | This feature refers to SO2, which is the amount of sulfur dioxide. |
+| density | This feature refers to the density percent of alcohol and sugar. |
+| pH | This feature refers to the acidic or basic of the wine, which is very acidic in the 0 and very basic in the to 14. ( pH scale should be between 3-4 in wines)  |
+| sulphates | This feature refers to contribute to sulfur dioxide gas (S02), which works as an antimicrobial and antioxidant |
+| alcohol  | This feature refers to wine' alcohol percent. |
+| quality  | This feature refers to wine quality, which is between 0 and 10 |
+
+
+
+## EDA
+This section exploratory data analysis will be performed. 
+Scatterplot matrices are a great way to roughly determine if you have a linear correlation between multiple variables. Therefore, We plot the data in the Scatterplot Matrix to present the data features as follows: 
+
+```{r}
+plot(myData)
+```
+
+
+A correlation heatmap is a graphical representation of a correlation matrix representing the correlation between different features 
+Therefore, the following plot presents the data features in the heatmap correlation. 
+
+```{r}
+corrplot(cor(myData))
+```
+
+
+Moreover,  we distribute the wine quality ratings as follows: 
+
+```{r}
+ggplot(myData,aes(x=quality))+geom_bar(stat = "count",position = "dodge")+ scale_x_continuous(breaks = seq(3,8,1))+
+ggtitle("The Quality Ratings of Red Wine")+
+theme_classic()
+```
+
+
+## Conclusin 
+To summarize, we found that red wine quality is substantially linked with alcohol and volatile acidity in our exploratory research.
+
+
